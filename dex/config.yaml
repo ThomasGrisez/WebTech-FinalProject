@@ -18,6 +18,7 @@ storage:
 # Configuration for the HTTP endpoints.
 web:
   http: 0.0.0.0:5556
+  allowedOrigins: ['*']
   # Uncomment for HTTPS options.
   # https: 127.0.0.1:5554
   # tlsCert: /etc/dex/tls.crt
@@ -80,7 +81,8 @@ staticClients:
     redirectURIs:
       - "http://127.0.0.1:3000"
     name: "Example App"
-    secret: ZXhhbXBsZS1hcHAtc2VjcmV0
+    # secret: ZXhhbXBsZS1hcHAtc2VjcmV0
+    public: true
 #  - id: example-device-client
 #    redirectURIs:
 #      - /device/callback
