@@ -4,7 +4,6 @@ import { useContext } from "react";
 import { useTheme } from "@mui/styles";
 import { IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Grid from "@mui/material/Grid";
 import Context from "./Context";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
@@ -16,7 +15,9 @@ const useStyles = (theme) => ({
     flexShrink: 0,
   },
   headerLogIn: {
-    backgroundColor: "red",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   headerLogOut: {
     backgroundColor: "blue",
@@ -50,21 +51,17 @@ export default function Header({ drawerToggleListener }) {
         <MenuIcon />
       </IconButton>
       {oauth ? (
-        <Grid container direction="row" xs={12}>
-          <Grid item xs alignItems="center" />
-          <Grid item> {oauth.email}</Grid>
-
-          <Grid container xs>
-            <Button
-              variant="contained"
-              color="secondary"
-              endIcon={<LogoutIcon />}
-              onClick={onClickLogout}
-            >
-              Logout
-            </Button>
-          </Grid>
-        </Grid>
+        <div css={styles.headerLogIn}>
+          {oauth.name}
+          <Button
+            variant="contained"
+            color="secondary"
+            endIcon={<LogoutIcon />}
+            onClick={onClickLogout}
+          >
+            Logout
+          </Button>
+        </div>
       ) : (
         <span></span>
       )}

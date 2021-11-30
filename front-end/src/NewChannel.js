@@ -6,7 +6,6 @@ import { useTheme } from "@mui/styles";
 import { Typography, TextField, Modal, Grid, Box, Button } from "@mui/material";
 import { ReactComponent as ChannelIcon } from "./icons/channel.svg";
 import axios from "axios";
-import crypto from "crypto";
 import Context from "./Context";
 
 const useStyles = (theme) => ({
@@ -49,7 +48,7 @@ const useStyles = (theme) => ({
 const NewChannel = () => {
   const styles = useStyles(useTheme());
 
-  const { oauth, channels, setChannels } = useContext(Context);
+  const { channels, setChannels } = useContext(Context);
   const [name, setName] = useState("");
 
   //Handles
@@ -65,14 +64,12 @@ const NewChannel = () => {
   // Post to create the channel
   const onSubmit = async () => {
     // Post on the back-end's route
-    console.log(name);
     const newChannel = { name: name };
     const { data: channelToAdd } = await axios.post(
       `http://localhost:3001/channels/`,
       newChannel
     );
     setChannels([...channels, channelToAdd]);
-    // history.push(`/channels/${answer.id}`);
   };
 
   return (

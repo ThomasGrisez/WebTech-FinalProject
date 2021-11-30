@@ -35,7 +35,7 @@ export default function Welcome() {
       >
         <Grid item xs>
           <div css={styles.card}>
-            <NewChannel></NewChannel>
+            <NewChannel />
           </div>
         </Grid>
         <Grid item xs>

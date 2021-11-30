@@ -1,60 +1,65 @@
-
 /** @jsxImportSource @emotion/react */
-import {useContext, useEffect} from 'react';
-import axios from 'axios';
+import { useContext, useEffect } from "react";
+import axios from "axios";
 // Layout
-import {Link} from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from "react-router-dom";
 // Local
-import Context from './Context'
-import {useNavigate} from 'react-router-dom'
+import Context from "./Context";
+import { useNavigate } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
+import ForumIcon from "@mui/icons-material/Forum";
+import IconButton from "@mui/material/IconButton";
 
 const styles = {
   root: {
-    '& a': {
-      padding: '.2rem .5rem',
-      whiteSpace: 'nowrap', 
-    }
+    "& a": {
+      padding: ".2rem .5rem",
+      whiteSpace: "nowrap",
+    },
   },
-}
+};
 
 export default function Channels() {
-  const {
-    oauth,
-    channels, setChannels
-  } = useContext(Context)
+  const { oauth, channels, setChannels } = useContext(Context);
   const naviate = useNavigate();
-  useEffect( () => {
+  useEffect(() => {
     const fetch = async () => {
-      try{
-        const {data: channels} = await axios.get('http://localhost:3001/channels', {
-          headers: {
-            'Authorization': `Bearer ${oauth.access_token}`
+      try {
+        const { data: channels } = await axios.get(
+          "http://localhost:3001/channels",
+          {
+            headers: {
+              Authorization: `Bearer ${oauth.access_token}`,
+            },
           }
-        })
-        setChannels(channels)
-      }catch(err){
-        console.error(err)
+        );
+        setChannels(channels);
+      } catch (err) {
+        console.error(err);
       }
-    }
-    fetch()
-  }, [oauth, setChannels])
+    };
+    fetch();
+  }, [oauth, setChannels]);
   return (
     <ul css={styles.root}>
       <li css={styles.channel}>
-        <Link to="/channels" component={RouterLink}>Welcome</Link>
+        <IconButton to="/channels" component={RouterLink}>
+          <HomeIcon />
+          Home
+        </IconButton>
       </li>
-      { channels.map( (channel, i) => (
+      {channels.map((channel, i) => (
         <li key={i} css={styles.channel}>
-          <Link
+          <IconButton
             href={`/channels/${channel.id}`}
-            onClick={ (e) => {
-              e.preventDefault()
-              naviate(`/channels/${channel.id}`)
+            onClick={(e) => {
+              e.preventDefault();
+              naviate(`/channels/${channel.id}`);
             }}
           >
+            <ForumIcon />
             {channel.name}
-          </Link>
+          </IconButton>
         </li>
       ))}
     </ul>
