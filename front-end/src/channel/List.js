@@ -107,6 +107,7 @@ export default forwardRef(
     const styles = useStyles(useTheme());
     const { oauth } = useContext(Context);
     const [newContent, setContent] = useState("");
+    const [creationMessage, setCreationMessage] = useState("");
     // Expose the `scroll` action
     useImperativeHandle(ref, () => ({
       scroll: scroll,
@@ -133,11 +134,6 @@ export default forwardRef(
       rootNode.addEventListener("scroll", handleScroll);
       return () => rootNode.removeEventListener("scroll", handleScroll);
     });
-
-    //Modal
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
 
     const updateMessages = () => {
       fetchMessages();
@@ -166,9 +162,9 @@ export default forwardRef(
     const handleChangeContent = (e) => {
       setContent(e.target.value);
     };
-    const handleModify = async (messageToModify) => {
+    const handleModify = async (messageToModifyCreation) => {
       await axios.put(
-        `http://localhost:3001/channels/${channel.id}/messages/${messageToModify.creation}`,
+        `http://localhost:3001/channels/${channel.id}/messages/${messageToModifyCreation}`,
         {
           content: newContent,
         },
@@ -181,6 +177,10 @@ export default forwardRef(
       updateMessages();
     };
 
+    //Modal
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => setOpen(false);
+    const handleOpen = () => setOpen(true);
     return (
       <div css={styles.root} ref={rootEl}>
         <h1>Messages for {channel.name}</h1>
@@ -195,7 +195,7 @@ export default forwardRef(
               <li key={i} css={styles.message}>
                 <div css={styles.headMessage}>
                   <div>
-                    <span>{message.author}</span>
+                    <span>{message.creation}</span>
                     {" - "}
                     <span>{dayjs().calendar(message.creation)}</span>
                   </div>
@@ -206,44 +206,10 @@ export default forwardRef(
                           css={styles.icon}
                           onClick={() => {
                             handleOpen();
+                            setCreationMessage(message.creation);
                             setContent(message.content);
                           }}
                         />
-                        <Modal open={open}>
-                          <Box sx={styles.box}>
-                            <div
-                              style={{ textAlign: "center", margin: "0 0 0 0" }}
-                            >
-                              <h1 css={styles.title}>Modify your message</h1>
-                            </div>
-                            <form noValidate>
-                              <Grid container css={styles.form}>
-                                <TextField
-                                  id="content"
-                                  name="content"
-                                  value={newContent}
-                                  variant="outlined"
-                                  fullWidth
-                                  onChange={handleChangeContent}
-                                />
-                              </Grid>
-                              <Grid container spacing={1} justify="center">
-                                <Button
-                                  style={{ margin: "0 auto 0 auto" }}
-                                  type="input"
-                                  variant="contained"
-                                  color="secondary"
-                                  onClick={() => {
-                                    handleModify(message);
-                                    handleClose();
-                                  }}
-                                >
-                                  Modify
-                                </Button>
-                              </Grid>
-                            </form>
-                          </Box>
-                        </Modal>
                         <DeleteIcon
                           css={styles.icon}
                           onClick={() => {
@@ -251,6 +217,43 @@ export default forwardRef(
                           }}
                         />
                       </ButtonGroup>
+                      <Modal open={open}>
+                        <Box sx={styles.box}>
+                          <div
+                            style={{ textAlign: "center", margin: "0 0 0 0" }}
+                          >
+                            <h1 css={styles.title}>Modify your message</h1>
+                          </div>
+                          <form>
+                            {/* Content to modify */}
+                            <Grid container css={styles.form}>
+                              <TextField
+                                id="content"
+                                name="content"
+                                defaultValue={newContent}
+                                variant="outlined"
+                                fullWidth
+                                onChange={handleChangeContent}
+                              />
+                            </Grid>
+                            {/* Validate */}
+                            <Grid container spacing={1} justify="center">
+                              <Button
+                                style={{ margin: "0 auto 0 auto" }}
+                                type="input"
+                                variant="contained"
+                                color="secondary"
+                                onClick={() => {
+                                  handleModify(creationMessage);
+                                  handleClose();
+                                }}
+                              >
+                                Modify
+                              </Button>
+                            </Grid>
+                          </form>
+                        </Box>
+                      </Modal>
                     </div>
                   ) : (
                     <span></span>

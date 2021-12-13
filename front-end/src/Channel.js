@@ -42,9 +42,6 @@ export default function Channel() {
   const addMessage = (message) => {
     setMessages([...messages, message]);
   };
-  const updateMessages = () => {
-    fetch();
-  };
   useEffect(() => {
     const fetch = async () => {
       try {
