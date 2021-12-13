@@ -55,7 +55,7 @@ export default function Header({ drawerToggleListener }) {
           {oauth.name}
           <Button
             variant="contained"
-            color="secondary"
+            color="neutral"
             endIcon={<LogoutIcon />}
             onClick={onClickLogout}
           >
