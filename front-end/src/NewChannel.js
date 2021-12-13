@@ -3,7 +3,12 @@
 import React from "react";
 import { useState, useContext } from "react";
 import { useTheme } from "@mui/styles";
-import { Typography, TextField, Modal, Grid, Box, Button } from "@mui/material";
+import { Typography, TextField, Modal, Grid, Box } from "@mui/material";
+import ButtonUnstyled, {
+  buttonUnstyledClasses,
+} from "@mui/core/ButtonUnstyled";
+import { styled } from "@mui/system";
+import PropTypes from "prop-types";
 import { ReactComponent as ChannelIcon } from "./icons/channel.svg";
 import axios from "axios";
 import Context from "./Context";
@@ -43,6 +48,112 @@ const useStyles = (theme) => ({
     boxShadow: 24,
     p: 4,
   },
+});
+
+//Button MUI
+const ButtonRoot = React.forwardRef(function ButtonRoot(props, ref) {
+  const { children, ...other } = props;
+
+  return (
+    <svg width="100" height="50" {...other} ref={ref}>
+      <polygon points="0,50 0,0 100,0 100,50" className="bg" />
+      <polygon points="0,50 0,0 100,0 100,50" className="borderEffect" />
+      <foreignObject x="0" y="0" width="100" height="50">
+        <div className="content">{children}</div>
+      </foreignObject>
+    </svg>
+  );
+});
+
+ButtonRoot.propTypes = {
+  children: PropTypes.node,
+};
+
+const CustomButtonRoot = styled(ButtonRoot)(
+  ({ theme }) => `
+  overflow: visible;
+  cursor: pointer;
+  --main-color: ${
+    theme.palette.mode === "light" ? "rgb(25,118,210)" : "rgb(144,202,249)"
+  };
+  --hover-color: ${
+    theme.palette.mode === "light"
+      ? "rgba(25,118,210,0.04)"
+      : "rgba(144,202,249,0.08)"
+  };
+  --active-color: ${
+    theme.palette.mode === "light"
+      ? "rgba(25,118,210,0.12)"
+      : "rgba(144,202,249,0.24)"
+  };
+
+  & polygon {
+    fill: transparent;
+    transition: all 800ms ease;
+    pointer-events: none;
+  }
+  
+  & .bg {
+    stroke: var(--main-color);
+    stroke-width: 0.5;
+    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.1));
+    fill: transparent;
+  }
+
+  & .borderEffect {
+    stroke: var(--main-color);
+    stroke-width: 2;
+    stroke-dasharray: 150 600;
+    stroke-dashoffset: 150;
+    fill: transparent;
+  }
+
+  &:hover,
+  &.${buttonUnstyledClasses.focusVisible} {
+    .borderEffect {
+      stroke-dashoffset: -600;
+    }
+
+    .bg {
+      fill: var(--hover-color);
+    }
+  }
+
+  &:focus,
+  &.${buttonUnstyledClasses.focusVisible} {
+    outline: none;
+  }
+
+  &.${buttonUnstyledClasses.active} { 
+    & .bg {
+      fill: var(--active-color);
+      transition: fill 300ms ease-out;
+    }
+  }
+
+  & foreignObject {
+    pointer-events: none;
+
+    & .content {
+      font-family: Helvetica, Inter, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 200;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--main-color);
+      text-transform: uppercase;
+    }
+
+    & svg {
+      margin: 0 5px;
+    }
+  }`
+);
+
+const SvgButton = React.forwardRef(function SvgButton(props, ref) {
+  return <ButtonUnstyled {...props} component={CustomButtonRoot} ref={ref} />;
 });
 
 const NewChannel = () => {
@@ -99,7 +210,7 @@ const NewChannel = () => {
               />
             </Grid>
             <Grid container spacing={1} justify="center">
-              <Button
+              <SvgButton
                 style={{ margin: "0 auto 0 auto" }}
                 type="input"
                 variant="contained"
@@ -109,8 +220,8 @@ const NewChannel = () => {
                 }}
               >
                 Cancel
-              </Button>
-              <Button
+              </SvgButton>
+              <SvgButton
                 style={{ margin: "0 auto 0 auto" }}
                 type="submit"
                 variant="contained"
@@ -121,7 +232,7 @@ const NewChannel = () => {
                 }}
               >
                 Create
-              </Button>
+              </SvgButton>
             </Grid>
           </form>
         </Box>
