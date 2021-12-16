@@ -7,12 +7,21 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Context from "./Context";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
+import Gravatar from "react-gravatar";
 
 const useStyles = (theme) => ({
   header: {
     padding: theme.spacing(1),
     backgroundColor: "rgba(255,255,255,.3)",
     flexShrink: 0,
+  },
+  avatarPicture: {
+    borderRadius: "50%",
+    marginLeft: 10,
+  },
+  nameAvatar: {
+    display: "flex",
+    alignItems: "center",
   },
   headerLogIn: {
     display: "flex",
@@ -52,7 +61,14 @@ export default function Header({ drawerToggleListener }) {
       </IconButton>
       {oauth ? (
         <div css={styles.headerLogIn}>
-          {oauth.name}
+          <div css={styles.nameAvatar}>
+            {oauth.name}
+            <Gravatar
+              css={styles.avatarPicture}
+              email={oauth.email}
+              size={30}
+            />
+          </div>
           <Button
             variant="contained"
             color="neutral"

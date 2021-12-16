@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 
 // Channels
 
-app.get("/channels", authenticate, async (req, res) => {
+app.get("/channels", async (req, res) => {
   const channels = await db.channels.list();
   res.json(channels);
 });
@@ -74,23 +74,31 @@ app.put("/channels/:id/messages/:idMessage", async (req, res) => {
 
 // Users
 
+//Get all the users
 app.get("/users", async (req, res) => {
   const users = await db.users.list();
   res.json(users);
 });
 
-// New user
+//Create new user
 app.post("/users", async (req, res) => {
   const user = await db.users.create(req.body);
   res.status(201).json(user);
 });
 
+//Get a user with the id
 app.get("/users/:id", async (req, res) => {
   const user = await db.users.get(req.params.id);
   res.json(user);
 });
 
-// Modify a user
+//Get a user with the email
+app.get("/useremails/:email", async (req, res) => {
+  const user = await db.users.getByEmail(req.params.email);
+  res.json(user);
+});
+
+// Modify a user with the id
 app.put("/users/:id", async (req, res) => {
   const user = await db.users.update(req.body);
   res.json(user);

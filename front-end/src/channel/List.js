@@ -73,11 +73,29 @@ const useStyles = (theme) => ({
     boxShadow: 24,
     p: 4,
   },
-  message: {
+  messageBox: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  messageOther: {
     padding: ".2rem .5rem",
     ":hover": {
       backgroundColor: "rgba(255,255,255,.05)",
     },
+    display: "flex",
+    flexDirection: "row",
+    alignContent: "flex-start",
+    justifyContent: "flex-start",
+  },
+  messageUser: {
+    padding: ".2rem .5rem",
+    ":hover": {
+      backgroundColor: "rgba(255,255,255,.05)",
+    },
+    display: "flex",
+    flexDirection: "row",
+    alignContent: "flex-end",
+    justifyContent: "flex-end",
   },
   headMessage: {
     display: "flex",
@@ -99,6 +117,18 @@ const useStyles = (theme) => ({
       background: "rgba(255,255,255,.4)",
       borderRadius: "30%",
     },
+  },
+  messageContentOther: {
+    backgroundColor: "grey",
+    borderRadius: "5px",
+    width: "fit-content",
+    padding: "1px 10px",
+  },
+  messageContentUser: {
+    backgroundColor: "blue",
+    borderRadius: "5px",
+    width: "fit-content",
+    padding: "1px 10px",
   },
 });
 
@@ -192,75 +222,106 @@ export default forwardRef(
               .use(html)
               .processSync(message.content);
             return (
-              <li key={i} css={styles.message}>
-                <div css={styles.headMessage}>
-                  <div>
-                    <span>{message.creation}</span>
-                    {" - "}
-                    <span>{dayjs().calendar(message.creation)}</span>
-                  </div>
-                  {oauth.name === message.author ? (
-                    <div>
-                      <ButtonGroup>
-                        <EditIcon
-                          css={styles.icon}
-                          onClick={() => {
-                            handleOpen();
-                            setCreationMessage(message.creation);
-                            setContent(message.content);
-                          }}
-                        />
-                        <DeleteIcon
-                          css={styles.icon}
-                          onClick={() => {
-                            handleDelete(message);
-                          }}
-                        />
-                      </ButtonGroup>
-                      <Modal open={open}>
-                        <Box sx={styles.box}>
-                          <div
-                            style={{ textAlign: "center", margin: "0 0 0 0" }}
-                          >
-                            <h1 css={styles.title}>Modify your message</h1>
-                          </div>
-                          <form>
-                            {/* Content to modify */}
-                            <Grid container css={styles.form}>
-                              <TextField
-                                id="content"
-                                name="content"
-                                defaultValue={newContent}
-                                variant="outlined"
-                                fullWidth
-                                onChange={handleChangeContent}
-                              />
-                            </Grid>
-                            {/* Validate */}
-                            <Grid container spacing={1} justify="center">
-                              <Button
-                                style={{ margin: "0 auto 0 auto" }}
-                                type="input"
-                                variant="contained"
-                                color="secondary"
+              <div>
+                {oauth.name === message.author ? (
+                  <li key={i} css={styles.messageUser}>
+                    <div css={styles.messageBox}>
+                      <div css={styles.headMessage}>
+                        <div>
+                          <span>{message.author}</span>
+                          {" - "}
+                          <span>{dayjs().calendar(message.creation)}</span>
+                        </div>
+                        {oauth.name === message.author ? (
+                          <div>
+                            <ButtonGroup>
+                              <EditIcon
+                                css={styles.icon}
                                 onClick={() => {
-                                  handleModify(creationMessage);
-                                  handleClose();
+                                  handleOpen();
+                                  setCreationMessage(message.creation);
+                                  setContent(message.content);
                                 }}
-                              >
-                                Modify
-                              </Button>
-                            </Grid>
-                          </form>
-                        </Box>
-                      </Modal>
+                              />
+                              <DeleteIcon
+                                css={styles.icon}
+                                onClick={() => {
+                                  handleDelete(message);
+                                }}
+                              />
+                            </ButtonGroup>
+                            <Modal open={open}>
+                              <Box sx={styles.box}>
+                                <div
+                                  style={{
+                                    textAlign: "center",
+                                    margin: "0 0 0 0",
+                                  }}
+                                >
+                                  <h1 css={styles.title}>
+                                    Modify your message
+                                  </h1>
+                                </div>
+                                <form>
+                                  {/* Content to modify */}
+                                  <Grid container css={styles.form}>
+                                    <TextField
+                                      id="content"
+                                      name="content"
+                                      defaultValue={newContent}
+                                      variant="outlined"
+                                      fullWidth
+                                      onChange={handleChangeContent}
+                                    />
+                                  </Grid>
+                                  {/* Validate */}
+                                  <Grid container spacing={1} justify="center">
+                                    <Button
+                                      style={{ margin: "0 auto 0 auto" }}
+                                      type="input"
+                                      variant="contained"
+                                      color="secondary"
+                                      onClick={() => {
+                                        handleModify(creationMessage);
+                                        handleClose();
+                                      }}
+                                    >
+                                      Modify
+                                    </Button>
+                                  </Grid>
+                                </form>
+                              </Box>
+                            </Modal>
+                          </div>
+                        ) : (
+                          <span></span>
+                        )}
+                      </div>
+                      <div
+                        dangerouslySetInnerHTML={{ __html: value }}
+                        css={styles.messageContentUser}
+                      ></div>
                     </div>
-                  ) : (
-                    <span></span>
-                  )}
-                </div>
-                <div dangerouslySetInnerHTML={{ __html: value }}></div>
-              </li>
+                  </li>
+                ) : (
+                  <li key={i} css={styles.messageOther}>
+                    <div css={styles.messageBox}>
+                      <div css={styles.headMessage}>
+                        <div>
+                          <span>{message.author}</span>
+                          {" - "}
+                          <span>{dayjs().calendar(message.creation)}</span>
+                        </div>
+                      </div>
+
+                      <div
+                        dangerouslySetInnerHTML={{ __html: value }}
+                        css={styles.messageContentOther}
+                      ></div>
+                    </div>
+                  </li>
+                )}
+              </div>
             );
           })}
         </ul>
