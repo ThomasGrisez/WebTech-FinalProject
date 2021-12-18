@@ -1,6 +1,6 @@
 # Chat application - final project
 
-_presentation, introduction, ..._
+Chat Application using React JS, made by Thomas Grisez (ECE Paris, ING4 Group 4)
 
 ## Usage
 
