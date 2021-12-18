@@ -54,10 +54,8 @@ Final version and final commit on GitHub
 
 - (Front-End) : Login page update
 
-## 24/11/2021
+## Start of the project - 24/11/2021
 
 ### Modifications
 
 - (Dex) : Use of docker compose
-
-### Start of the project
