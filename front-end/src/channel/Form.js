@@ -5,27 +5,23 @@ import axios from "axios";
 import { Button, TextField } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useTheme } from "@mui/styles";
-import Context from "../Context";
+import Context from "../components/Context";
 
 const useStyles = (theme) => {
-  // See https://github.com/mui-org/material-ui/blob/next/packages/material-ui/src/OutlinedInput/OutlinedInput.js
-  const borderColor =
-    theme.palette.mode === "light"
-      ? "rgba(0, 0, 0, 0.23)"
-      : "rgba(255, 255, 255, 0.23)";
   return {
     form: {
-      borderTop: `2px solid ${borderColor}`,
+      borderTop: `1px solid black`,
       padding: ".5rem",
       display: "flex",
+      backgroundColor: "#293241",
     },
     content: {
       flex: "1 1 auto",
       "&.MuiTextField-root": {
         marginRight: theme.spacing(1),
+        backgroundColor: "#293241",
       },
     },
-    send: {},
   };
 };
 

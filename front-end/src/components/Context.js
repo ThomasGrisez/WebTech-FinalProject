@@ -11,6 +11,8 @@ export const Provider = ({ children }) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [channels, setChannels] = useState([]);
   const [currentChannel, setCurrentChannel] = useState(null);
+  const [notifications, setNotifications] = useState(false);
+  const [night, setNight] = useState(false);
   return (
     <Context.Provider
       value={{
@@ -41,6 +43,10 @@ export const Provider = ({ children }) => {
           const channel = channels.find((channel) => channel.id === channelId);
           setCurrentChannel(channel);
         },
+        notifications: notifications,
+        setNotifications: setNotifications,
+        night: night,
+        setNight: setNight,
       }}
     >
       {children}

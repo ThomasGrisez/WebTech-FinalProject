@@ -32,9 +32,10 @@ const sha256 = (buffer) => {
 const useStyles = (theme) => ({
   root: {
     flex: "1 1 auto",
-    background: theme.palette.background.default,
+    background: "#E0FBFC",
     display: "flex",
-    justifyContent: "center",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
     alignItems: "center",
     "& > div": {
       margin: `${theme.spacing(1)}`,
@@ -48,6 +49,11 @@ const useStyles = (theme) => ({
         display: "block",
       },
     },
+  },
+  title: {
+    fontSize: 60,
+    fontWeight: "400",
+    color: "#293241",
   },
 });
 
@@ -175,6 +181,9 @@ const Redirect = ({ config, codeVerifier }) => {
   };
   return (
     <div css={styles.root}>
+      <div>
+        <h1 css={styles.title}>Welcome to ECE Chat</h1>
+      </div>
       <SvgButton onClick={redirect} color="secondary">
         Login
       </SvgButton>

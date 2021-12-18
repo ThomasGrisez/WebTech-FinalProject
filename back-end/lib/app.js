@@ -18,14 +18,31 @@ app.get("/", (req, res) => {
 
 // Channels
 
+// app.get("/channels", async (req, res) => {
+//   const channels = await db.channels.channelsOfUser(req.body.email);
+//   console.log(req.body.email);
+//   res.json(channels);
+// });
+
 app.get("/channels", async (req, res) => {
   const channels = await db.channels.list();
   res.json(channels);
 });
 
+//Create channel with invited friends
 app.post("/channels", async (req, res) => {
-  const channel = await db.channels.create(req.body);
-  res.status(201).json(channel);
+  try {
+    const channel = await db.channels.create(req.body);
+    //Add the channel to the users
+    if (channel && channel.channelUsers) {
+      for (const userID of channel.channelUsers) {
+        await db.users.inviteToChannel(userID, channel.id);
+      }
+    }
+    res.status(201).json(channel);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.get("/channels/:id", async (req, res) => {
@@ -44,6 +61,7 @@ app.get("/channels/:id/messages", async (req, res) => {
   try {
     const channel = await db.channels.get(req.params.id);
   } catch (err) {
+    console.log(err);
     return res.status(404).send("Channel does not exist.");
   }
   const messages = await db.messages.list(req.params.id);
@@ -96,6 +114,23 @@ app.get("/users/:id", async (req, res) => {
 app.get("/useremails/:email", async (req, res) => {
   const user = await db.users.getByEmail(req.params.email);
   res.json(user);
+});
+
+//invite to channel
+app.post("/channelsinvite/:id", async (req, res) => {
+  try {
+    const channel = await db.channels.get(req.params.id);
+    usersToInviteID = req.body.friends;
+    //Add the channel to the users
+    if (channel && usersToInviteID) {
+      for (const userID of usersToInviteID) {
+        await db.users.inviteToChannel(userID, channel.id);
+      }
+    }
+    res.status(201).json(channel);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 // Modify a user with the id

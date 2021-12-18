@@ -10,16 +10,9 @@ import {
 } from "react";
 // Layout
 
-import Context from "../Context";
+import Context from "../components/Context";
 import { useTheme } from "@mui/styles";
-import {
-  Modal,
-  Button,
-  ButtonGroup,
-  Box,
-  Grid,
-  TextField,
-} from "@mui/material";
+import { Modal, Button, ButtonGroup, Box, TextField } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 // Markdown
@@ -36,7 +29,7 @@ dayjs.extend(calendar);
 dayjs.extend(updateLocale);
 dayjs.updateLocale("en", {
   calendar: {
-    sameElse: "DD/MM/YYYY hh:mm A",
+    sameElse: "DD/MM H:mm",
   },
 });
 
@@ -56,79 +49,102 @@ const useStyles = (theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  channelTitle: {
+    fontSize: 40,
+    textAlign: "center",
+    fontWeight: "450",
+    color: "#3D5A80",
+  },
   title: {
     fontSize: 40,
-    margin: "0.5em 0 0 0",
+    margin: "0 0 0 0",
     fontWeight: "400",
     color: "white",
   },
-  box: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  },
-  messageBox: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  messageOther: {
-    padding: ".2rem .5rem",
-    ":hover": {
-      backgroundColor: "rgba(255,255,255,.05)",
-    },
-    display: "flex",
-    flexDirection: "row",
-    alignContent: "flex-start",
-    justifyContent: "flex-start",
-  },
-  messageUser: {
-    padding: ".2rem .5rem",
-    ":hover": {
-      backgroundColor: "rgba(255,255,255,.05)",
-    },
-    display: "flex",
-    flexDirection: "row",
-    alignContent: "flex-end",
-    justifyContent: "flex-end",
-  },
-  headMessage: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  fabWrapper: {
-    position: "absolute",
-    right: 0,
-    top: 0,
-    width: "50px",
-  },
-  fab: {
-    position: "fixed !important",
-    top: 0,
-    width: "50px",
-  },
+  // Edit & Delete Buttons
   icon: {
     "&:hover": {
       background: "rgba(255,255,255,.4)",
       borderRadius: "30%",
     },
+    fill: "#3D5A80",
   },
-  messageContentOther: {
-    backgroundColor: "grey",
-    borderRadius: "5px",
-    width: "fit-content",
-    padding: "1px 10px",
+  messageBox: {
+    display: "flex",
+    flexDirection: "column",
+    marginBottom: "2px",
+  },
+  // User message
+  header: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginRight: "5px",
+  },
+  messagePositionUser: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginRight: "5px",
+    marginLeft: "5px",
   },
   messageContentUser: {
-    backgroundColor: "blue",
-    borderRadius: "5px",
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "#3D5A80",
+    borderRadius: "10px",
+    padding: "0 10px",
+  },
+
+  // Other users messages
+  headerMessage: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    marginLeft: "5px",
+  },
+  messageContentOthers: {
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "#98C1D9",
     width: "fit-content",
-    padding: "1px 10px",
+    borderRadius: "10px",
+    padding: "0 10px",
+  },
+  messagePositionOthers: {
+    display: "flex",
+    flexDirection: "row",
+    width: "fit-content",
+    borderRadius: "10px",
+    padding: "0 10px",
+  },
+  texts: {
+    fontSize: 15,
+    color: "#3D5A80",
+  },
+  boxModal: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "#3D5A80",
+    border: "2px solid #293241",
+    borderRadius: "5px",
+    boxShadow: 24,
+    p: 4,
+  },
+  textModifMessage: {
+    margin: "10px auto",
+  },
+
+  validateButton: {
+    width: "fit-content",
+    margin: "0 auto",
   },
 });
 
@@ -213,7 +229,7 @@ export default forwardRef(
     const handleOpen = () => setOpen(true);
     return (
       <div css={styles.root} ref={rootEl}>
-        <h1>Messages for {channel.name}</h1>
+        <h1 css={styles.channelTitle}>Messages for {channel.name}</h1>
         <ul>
           {messages.map((message, i) => {
             const { value } = unified()
@@ -224,100 +240,90 @@ export default forwardRef(
             return (
               <div>
                 {oauth.name === message.author ? (
-                  <li key={i} css={styles.messageUser}>
-                    <div css={styles.messageBox}>
-                      <div css={styles.headMessage}>
+                  <li key={i} css={styles.messageBox}>
+                    {/* Header */}
+                    <div css={styles.header}>
+                      {/* Header infos */}
+                      <span css={styles.texts}>{message.author}</span>
+                      <span css={styles.texts}>{" - "}</span>
+                      <span css={styles.texts}>
+                        {dayjs().calendar(message.creation)}
+                      </span>
+                      {oauth.name === message.author ? (
+                        // Header buttons
                         <div>
-                          <span>{message.author}</span>
-                          {" - "}
-                          <span>{dayjs().calendar(message.creation)}</span>
+                          <ButtonGroup>
+                            <EditIcon
+                              css={styles.icon}
+                              onClick={() => {
+                                handleOpen();
+                                setCreationMessage(message.creation);
+                                setContent(message.content);
+                              }}
+                            />
+                            <DeleteIcon
+                              css={styles.icon}
+                              onClick={() => {
+                                handleDelete(message);
+                              }}
+                            />
+                          </ButtonGroup>
+                          <Modal open={open}>
+                            <Box sx={styles.boxModal}>
+                              <p css={styles.title}>Modify your message</p>
+
+                              <TextField
+                                id="content"
+                                name="content"
+                                defaultValue={newContent}
+                                variant="outlined"
+                                fullWidth
+                                css={styles.textModifMessage}
+                                onChange={handleChangeContent}
+                              />
+                              <Button
+                                type="input"
+                                variant="contained"
+                                color="secondary"
+                                css={styles.validateButton}
+                                onClick={() => {
+                                  handleModify(creationMessage);
+                                  handleClose();
+                                }}
+                              >
+                                Modify
+                              </Button>
+                            </Box>
+                          </Modal>
                         </div>
-                        {oauth.name === message.author ? (
-                          <div>
-                            <ButtonGroup>
-                              <EditIcon
-                                css={styles.icon}
-                                onClick={() => {
-                                  handleOpen();
-                                  setCreationMessage(message.creation);
-                                  setContent(message.content);
-                                }}
-                              />
-                              <DeleteIcon
-                                css={styles.icon}
-                                onClick={() => {
-                                  handleDelete(message);
-                                }}
-                              />
-                            </ButtonGroup>
-                            <Modal open={open}>
-                              <Box sx={styles.box}>
-                                <div
-                                  style={{
-                                    textAlign: "center",
-                                    margin: "0 0 0 0",
-                                  }}
-                                >
-                                  <h1 css={styles.title}>
-                                    Modify your message
-                                  </h1>
-                                </div>
-                                <form>
-                                  {/* Content to modify */}
-                                  <Grid container css={styles.form}>
-                                    <TextField
-                                      id="content"
-                                      name="content"
-                                      defaultValue={newContent}
-                                      variant="outlined"
-                                      fullWidth
-                                      onChange={handleChangeContent}
-                                    />
-                                  </Grid>
-                                  {/* Validate */}
-                                  <Grid container spacing={1} justify="center">
-                                    <Button
-                                      style={{ margin: "0 auto 0 auto" }}
-                                      type="input"
-                                      variant="contained"
-                                      color="secondary"
-                                      onClick={() => {
-                                        handleModify(creationMessage);
-                                        handleClose();
-                                      }}
-                                    >
-                                      Modify
-                                    </Button>
-                                  </Grid>
-                                </form>
-                              </Box>
-                            </Modal>
-                          </div>
-                        ) : (
-                          <span></span>
-                        )}
+                      ) : (
+                        <p></p>
+                      )}
+                    </div>
+
+                    {/* Content Message */}
+                    <div css={styles.messagePositionUser}>
+                      <div css={styles.messageContentUser}>
+                        <div dangerouslySetInnerHTML={{ __html: value }} />
                       </div>
-                      <div
-                        dangerouslySetInnerHTML={{ __html: value }}
-                        css={styles.messageContentUser}
-                      ></div>
                     </div>
                   </li>
                 ) : (
-                  <li key={i} css={styles.messageOther}>
-                    <div css={styles.messageBox}>
-                      <div css={styles.headMessage}>
-                        <div>
-                          <span>{message.author}</span>
-                          {" - "}
-                          <span>{dayjs().calendar(message.creation)}</span>
-                        </div>
+                  // Box Message
+                  <li key={i} css={styles.messageBox}>
+                    {/* Header Message */}
+                    <div css={styles.headerMessage}>
+                      <span css={styles.texts}>{message.author}</span>
+                      <span css={styles.texts}>{" - "}</span>
+                      <span css={styles.texts}>
+                        {dayjs().calendar(message.creation)}
+                      </span>
+                    </div>
+                    {/* Content Message */}
+                    <div css={styles.messagePositionOthers}>
+                      <div css={styles.messageContentOthers}>
+                        <div dangerouslySetInnerHTML={{ __html: value }} />
                       </div>
-
-                      <div
-                        dangerouslySetInnerHTML={{ __html: value }}
-                        css={styles.messageContentOther}
-                      ></div>
                     </div>
                   </li>
                 )}

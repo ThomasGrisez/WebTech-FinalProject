@@ -5,9 +5,11 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "30px",
-    backgroundColor: "rgba(255,255,255,.3)",
+    height: "fit-content",
+    padding: "5px",
+    backgroundColor: "#293241",
     flexShrink: 0,
+    borderTop: "1px solid black",
   },
 };
 

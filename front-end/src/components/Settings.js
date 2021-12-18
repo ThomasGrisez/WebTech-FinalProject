@@ -1,10 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { React, useContext } from "react";
 import { useTheme } from "@mui/styles";
-import TextField from "@mui/material/TextField";
-import Checkbox from "@mui/material/Checkbox";
-import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
+import Switch from "@mui/material/Switch";
 import Context from "./Context";
 import Gravatar from "react-gravatar";
 
@@ -15,6 +13,7 @@ const useStyles = (theme) => ({
     paddingLeft: "10px",
     overflow: "auto",
     scrollBehaviour: "smooth",
+    color: "#3D5A80",
   },
   title: {
     display: "flex",
@@ -22,13 +21,9 @@ const useStyles = (theme) => ({
     fontSize: 40,
     fontWeight: "400",
   },
-  informations: {
-    // backgroundColor: "red",
-  },
   avatar: {
     display: "flex",
     flexDirection: "column",
-    // backgroundColor: "green",
   },
   avatarPicture: {
     borderRadius: "50%",
@@ -37,24 +32,39 @@ const useStyles = (theme) => ({
     display: "flex",
     flexDirection: "column",
     width: "200px",
-    // backgroundColor: "blue",
-  },
-  checkbox: {
-    // backgroundColor: "yellow",
   },
   check: {
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
   },
   confirmBtn: {
     display: "flex",
     justifyContent: "center",
   },
+
+  content: {
+    flex: "1 1 auto",
+    "&.MuiTextField-root": {
+      marginRight: theme.spacing(1),
+      fill: "black",
+    },
+  },
 });
 
 const Settings = () => {
   const styles = useStyles(useTheme());
-  const { oauth } = useContext(Context);
+  const { oauth, notifications, setNotifications, night, setNight } =
+    useContext(Context);
+
+  // Handle Switches
+  const handleChangeNight = (event) => {
+    setNight(event.target.checked);
+  };
+  const handleChangeNotif = (event) => {
+    setNotifications(event.target.checked);
+  };
+
   return (
     <div css={styles.root}>
       <div css={styles.title}>Settings</div>
@@ -77,22 +87,15 @@ const Settings = () => {
           </div>
         </Grid>
         <Grid item xs>
-          <div css={styles.password}>
-            <h2>Password</h2>
-            <div>
-              <TextField
-                variant="outlined"
-                label="Password"
-                style={{ marginBottom: "10px" }}
-                fullWidth
+          <div css={styles.checkbox}>
+            <h2>Day/Night Theme</h2>
+            <div css={styles.check}>
+              <p>Night Theme</p>
+              <Switch
+                checked={night}
+                onChange={handleChangeNight}
+                inputProps={{ "aria-label": "controlled" }}
               />
-              <TextField
-                variant="outlined"
-                label="Confirm Password"
-                style={{ marginBottom: "10px" }}
-                fullWidth
-              />
-              <Button variant="outlined">Confirm</Button>
             </div>
           </div>
         </Grid>
@@ -101,7 +104,11 @@ const Settings = () => {
             <h2>Notifications</h2>
             <div css={styles.check}>
               <p>Enable/Disable</p>
-              <Checkbox />
+              <Switch
+                checked={notifications}
+                onChange={handleChangeNotif}
+                inputProps={{ "aria-label": "controlled" }}
+              />
             </div>
           </div>
         </Grid>

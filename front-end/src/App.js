@@ -2,11 +2,11 @@
 import { useContext, useState } from "react";
 // Local
 import Oups from "./Oups";
-import Footer from "./Footer";
-import Header from "./Header";
-import Main from "./Main";
-import Login from "./Login";
-import Context from "./Context";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import Main from "./components/Main";
+import Login from "./components/Login";
+import Context from "./components/Context";
 // Rooter
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 
@@ -15,9 +15,7 @@ const styles = {
     boxSizing: "border-box",
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "#565E71",
-    // backgroundColor: "red",
-    // padding: "25px",
+    backgroundColor: "#E0FBFC",
   },
 };
 

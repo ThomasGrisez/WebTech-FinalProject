@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 // Layout
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useTheme } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
 import { Grid, Typography, Link } from "@mui/material";
-import { ReactComponent as FriendsIcon } from "./icons/friends.svg";
-import { ReactComponent as SettingsIcon } from "./icons/settings.svg";
+import { ReactComponent as SettingsIcon } from "../icons/settings.svg";
 import NewChannel from "./NewChannel";
+import InviteFriends from "./InviteFriends";
 import Context from "./Context";
 import axios from "axios";
 
@@ -15,6 +15,7 @@ const useStyles = (theme) => ({
     height: "100%",
     flex: "1 1 auto",
     display: "flex",
+    background: "#E0FBFC",
   },
   card: {
     textAlign: "center",
@@ -25,7 +26,7 @@ const useStyles = (theme) => ({
   },
   icon: {
     width: "30%",
-    fill: "#fff",
+    fill: "#293241",
   },
 });
 
@@ -33,11 +34,13 @@ export default function Welcome() {
   const styles = useStyles(useTheme());
   const navigate = useNavigate();
   const { oauth } = useContext(Context);
+  const alreadyExists = useRef(false);
 
   // Create account if does not exist
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        //Fetch all users
         const { data: users } = await axios.get(
           `http://localhost:3001/users/`,
           {
@@ -46,16 +49,19 @@ export default function Welcome() {
             },
           }
         );
+        for (let i = 0; i < users.length; i++) {
+          if (users[i].email.includes(oauth.email))
+            alreadyExists.current = true;
+        }
 
-        console.log(users);
-        const user = users.find((user) => user.email === oauth.email);
-        if (!user) {
-          console.log("Create user");
+        //If user doesn't exist then we create it
+        if (!alreadyExists.current) {
           axios.post(
             "http://localhost:3001/users/",
             {
               username: oauth.name,
               email: oauth.email,
+              channels: [],
             },
             {
               headers: {
@@ -63,13 +69,14 @@ export default function Welcome() {
               },
             }
           );
+          alreadyExists.current = true;
         }
       } catch (err) {
         console.error(err);
       }
     };
     fetchUser();
-  });
+  }, [oauth]);
 
   return (
     <div css={styles.root}>
@@ -87,8 +94,7 @@ export default function Welcome() {
         </Grid>
         <Grid item xs>
           <div css={styles.card}>
-            <FriendsIcon css={styles.icon} />
-            <Typography color="textPrimary">Invite friends</Typography>
+            <InviteFriends />
           </div>
         </Grid>
         <Grid item xs>
@@ -103,7 +109,7 @@ export default function Welcome() {
               style={{ color: "white" }}
             >
               <SettingsIcon css={styles.icon} />
-              <Typography color="textPrimary">Settings</Typography>
+              <Typography color="#293241">Settings</Typography>
             </Link>
           </div>
         </Grid>

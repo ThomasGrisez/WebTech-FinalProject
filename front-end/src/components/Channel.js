@@ -6,8 +6,8 @@ import { useTheme } from "@mui/styles";
 import { Fab } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 // Local
-import Form from "./channel/Form";
-import List from "./channel/List";
+import Form from "../channel/Form";
+import List from "../channel/List";
 import Context from "./Context";
 import { useNavigate, useParams } from "react-router-dom";
 

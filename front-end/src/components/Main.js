@@ -14,7 +14,7 @@ import { Route, Routes } from "react-router-dom";
 
 const useStyles = (theme) => ({
   root: {
-    backgroundColor: "#373B44",
+    backgroundColor: "#E0FBFC",
     overflow: "hidden",
     flex: "1 1 auto",
     display: "flex",
@@ -24,9 +24,11 @@ const useStyles = (theme) => ({
   drawer: {
     width: "200px",
     display: "none",
+    backgroundColor: "#293241",
   },
   drawerVisible: {
     display: "block",
+    backgroundColor: "#293241",
   },
 });
 
@@ -43,10 +45,14 @@ export default function Main() {
   return (
     <main css={styles.root}>
       <Drawer
-        PaperProps={{ style: { position: "relative" } }}
-        BackdropProps={{ style: { position: "relative" } }}
+        PaperProps={{
+          style: { position: "relative", backgroundColor: "#293241" },
+        }}
+        BackdropProps={{
+          style: { position: "relative", backgroundColor: "#293241" },
+        }}
         ModalProps={{
-          style: { position: "relative" },
+          style: { position: "relative", backgroundColor: "#293241" },
         }}
         variant="persistent"
         open={isDrawerVisible}

@@ -12,12 +12,14 @@ import Gravatar from "react-gravatar";
 const useStyles = (theme) => ({
   header: {
     padding: theme.spacing(1),
-    backgroundColor: "rgba(255,255,255,.3)",
+    backgroundColor: "#293241",
     flexShrink: 0,
+    borderBottom: "1px solid black",
   },
   avatarPicture: {
     borderRadius: "50%",
     marginLeft: 10,
+    border: "2px solid white",
   },
   nameAvatar: {
     display: "flex",
