@@ -65,11 +65,13 @@ Project management
   The project is composed of 3 main folders : `back-end/`, `front-end/` and `dex/`,  
    There is also a `README.md`, a `CHANGELOG.md`, a `docker-compose.yaml` and `instructions.md`.
 - Code quality  
-  _place your graduation and comments_
+  To have an understandable code, each code is composed with all the imports at the top.  
+  Comments are written to explain specific parts. Use of JSX.
 - Design, UX  
-  _place your graduation and comments_
+  For the design of the chat application, I used a lot of MUI components as they are easy to use. I'm not a good designer so it was really helpful. I tried my best for the user to have an intuitive and simple to use experience.
 - Git and DevOps  
-  _place your graduation and comments_
+  As I was alone on this project, I always pushed my commits directly on the main branch.  
+  All commits use the same writing conventions (fix/feat : description of the commit.)
 
 Application development
 
