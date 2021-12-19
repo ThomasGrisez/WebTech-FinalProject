@@ -62,8 +62,8 @@ Project management
 - Naming convention  
   I used PascalCase for components and all front-end files, camelCase for variables and back-end files.
 - Project structure  
-  The project is composed of 3 main folders : `back-end/`, `front-end/` and `dex/`,
-  There is also a `README.md`, a `CHANGELOG.md`, a `docker-compose.yaml` and `instructions.md`.
+  The project is composed of 3 main folders : `back-end/`, `front-end/` and `dex/`,  
+   There is also a `README.md`, a `CHANGELOG.md`, a `docker-compose.yaml` and `instructions.md`.
 - Code quality  
   _place your graduation and comments_
 - Design, UX  
