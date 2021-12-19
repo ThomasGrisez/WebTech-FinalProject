@@ -4,7 +4,7 @@ Chat Application using React JS, made by Thomas Grisez (ECE Paris, ING4 Group 4)
 
 ## Usage
 
-_how to start and use the application, run the tests, ..._
+How to start and use the application, run the tests, ...\_
 
 - Clone this repository, from your local machine:
   ```
@@ -41,7 +41,8 @@ _how to start and use the application, run the tests, ..._
   # Start the back-end
   bin/start
   ```
-- Start the front-end
+- Start the front-end, it will accessible on http://localhost:3001.
+
   ```bash
   cd front-end
   # Install dependencies (use yarn or npm)
@@ -59,9 +60,10 @@ Thomas Grisez, thomas.grisez@edu.ece.fr
 Project management
 
 - Naming convention  
-  _place your graduation and comments_
+  I used PascalCase for components and all front-end files, camelCase for variables and back-end files.
 - Project structure  
-  _place your graduation and comments_
+  The project is composed of 3 main folders : `back-end/`, `front-end/` and `dex/`,
+  There is also a `README.md`, a `CHANGELOG.md`, a `docker-compose.yaml` and `instructions.md`.
 - Code quality  
   _place your graduation and comments_
 - Design, UX  
