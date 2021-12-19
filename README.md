@@ -71,33 +71,25 @@ Project management
   For the design of the chat application, I used a lot of MUI components as they are easy to use. I'm not a good designer so it was really helpful. I tried my best for the user to have an intuitive and simple to use experience.
 - Git and DevOps  
   As I was alone on this project, I always pushed my commits directly on the main branch.  
-  All commits use the same writing conventions (fix/feat : description of the commit.)
+  All commits use the same writing conventions (fix/feat : description of the commit.) to have a clear understanding of each commit.
 
 Application development
 
 - Welcome screens  
-  _place your graduation and comments_
+  On this page, you have access to the channels on the left, you have 3 icons in the middle to create a channel, invite friends to a channel and a link to a settings page.
 - New channel creation  
-  _place your graduation and comments_
+  When clicking on the NewChannel Icon, a popup is displayed with a form to enter the informations about the new channel : Its name, if it's public or not and the possibility to select friends to invite.
 - Channel membership and access  
-  _place your graduation and comments_
+  While creating a channel, a list of users is created and they are permitted to access it.
 - Ressource access control  
   _place your graduation and comments_
 - Invite users to channels  
-  _place your graduation and comments_
+  When clicking on the InviteFriends Icon, a popup is displayed with a form to select a channel and select friends to invite. They will be added on the list of authorized users.
 - Message modification  
-  _place your graduation and comments_
+  The messages of the connected user will have an Edit Icon, it will display a popup with a textfield to modify the message.
 - Message removal  
-  _place your graduation and comments_
+  The messages of the connected user will have an Delete Icon, it will delete the message if he clicks on it.
 - Account settings  
-  _place your graduation and comments_
+  The account settings page is not active but the changes will be persistent, you will have informations on your profile with the possibility to activate a night theme, enable or disable notifications, you will also have your Gravatar Picture displayed.
 - Gravatar integration  
-  _place your graduation and comments_
-- Avatar selection  
-  _place your graduation and comments_
-- Personal custom avatar  
-  _place your graduation and comments_
-
-## Bonus
-
-_place your graduation and comments_
+  The email address of the connected user is used to get the gravatar picture if this address is connected to a gravatar account, if not a random retro picture will be displayed.
