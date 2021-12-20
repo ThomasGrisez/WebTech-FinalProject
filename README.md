@@ -46,7 +46,7 @@ How to start and use the application, run the tests, ...\_
   bin/start
   ```
 - Start the front-end, it will accessible on http://localhost:3000.  
-  **BE CAREFUL** If you are logging in for the first, sometimes a bug will occur and il will display "loading tokens", in this case you need to delete everything in the url after http://127.0.0.1:3000/ and redo the login process and it will work.
+  **BE CAREFUL** If you are logging in for the first, sometimes a bug will occur and it will display "loading tokens", in this case you need to delete everything in the url after http://127.0.0.1:3000/ and redo the login process and it will work.
 
   ```bash
   cd front-end
