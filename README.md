@@ -27,6 +27,10 @@ How to start and use the application, run the tests, ...\_
       clientSecret: xxxxxxxxx80e139441b637796b128d8xxxxxxxxx
       redirectURI: http://127.0.0.1:5556/dex/callback
   ```
+- To use Dex, you must pull the image :
+  ```bash
+  docker pull dexidp/dex
+  ```
 - Inside `./dex/config.yml`, the frond-end application is already registered and CORS is activated. Now that Dex is built and configured, your can start Dex:
   ```bash
   docker-compose up
